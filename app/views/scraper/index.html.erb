@@ -1,0 +1,37 @@
+<div class="container mx-auto px-4 py-8 max-w-2xl">
+  <h1 class="text-3xl font-bold text-center mb-8 text-indigo-600">Web Scraper</h1>
+
+  <%= form_with url: scrape_path, method: :post, local: true, class: "mb-8" do %>
+    <div class="bg-white shadow-md rounded px-8 pt-6 pb-8 mb-4">
+      <div class="mb-4">
+        <%= label_tag :url, "Enter the URL to scrape:", class: "block text-gray-700 text-sm font-bold mb-2" %>
+        <%= text_field_tag :url, params[:url], size: 50, class: "shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline" %>
+      </div>
+      <div class="flex items-center justify-center">
+        <%= submit_tag "Scrape", class: "bg-indigo-500 hover:bg-indigo-700 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline transition duration-300" %>
+      </div>
+    </div>
+  <% end %>
+
+  <% if @scraped_text %>
+    <div class="bg-white shadow-md rounded px-8 pt-6 pb-8 mb-4">
+      <h2 class="text-2xl font-semibold mb-4 text-indigo-600">Scraped Text:</h2>
+      <div class="h-96 overflow-auto mb-4">
+        <pre class="bg-gray-100 p-4 rounded-lg whitespace-pre-wrap break-words text-sm"><%= @scraped_text %></pre>
+      </div>
+      <%= form_with url: improve_text_path, method: :post, local: true do %>
+        <%= hidden_field_tag :scraped_text, @scraped_text %>
+        <%= submit_tag "Improve my text", class: "bg-green-500 hover:bg-green-700 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline transition duration-300" %>
+      <% end %>
+    </div>
+  <% end %>
+
+  <% if @improved_text %>
+    <div class="bg-white shadow-md rounded px-8 pt-6 pb-8">
+      <h2 class="text-2xl font-semibold mb-4 text-green-600">Improved Text:</h2>
+      <div class="h-96 overflow-auto">
+        <pre class="bg-gray-100 p-4 rounded-lg whitespace-pre-wrap break-words text-sm"><%= @improved_text %></pre>
+      </div>
+    </div>
+  <% end %>
+</div>
