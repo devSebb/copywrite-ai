@@ -1,5 +1,6 @@
-class CopywriteService
-  MAX_TOKENS = 4000  # Adjust based on your OpenAI plan and needs
+class CopywriteServices
+  MAX_MODEL_TOKENS = 8192
+  MAX_COMPLETION_TOKENS = 2048
 
   def initialize(text)
     @text = text
@@ -7,11 +8,16 @@ class CopywriteService
 
   def improve_text
     client = OpenAI::Client.new
+
+    prompt = improvement_prompt(@text)
+    prompt_tokens = count_tokens(prompt)
+    max_tokens = [ MAX_MODEL_TOKENS - prompt_tokens, MAX_COMPLETION_TOKENS ].min
+
     response = client.chat(
       parameters: {
         model: "gpt-4",
-        messages: [ { role: "user", content: improvement_prompt } ],
-        max_tokens: [ MAX_TOKENS, @text.length * 1.5 ].min.to_i,
+        messages: [ { role: "user", content: prompt } ],
+        max_tokens: max_tokens,
         temperature: 0.7
       }
     )
@@ -23,16 +29,25 @@ class CopywriteService
 
   private
 
-  def improvement_prompt
+  def improvement_prompt(text)
     <<~PROMPT
-      Please improve the following text. Focus on:
-      1. Enhancing clarity and readability
-      2. Correcting any grammatical or spelling errors
-      3. Improving the overall structure and flow
-      4. Maintaining the original meaning and intent
+      As an expert editor and writer, your task is to enhance the following text while preserving its original meaning and intent. Please:
+
+      - Improve clarity and readability.
+      - Correct grammatical, punctuation, and spelling errors.
+      - Enhance sentence structure and flow.
+      - Use appropriate vocabulary and tone for a general audience.
+      - Remove any redundancy or unnecessary phrases.
+      - Keep the content factual without adding personal opinions or extraneous information.
+
+      Provide only the revised text without any additional comments or introductions.
 
       Text to improve:
-      #{@text}
+      "#{text}"
     PROMPT
+  end
+
+  def count_tokens(text)
+    (text.length / 4).to_i
   end
 end

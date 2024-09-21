@@ -2,6 +2,13 @@
 @tailwind components;
 @tailwind utilities;
 
+body {
+  @apply bg-gradient-to-br from-indigo-100 to-purple-100
+}
+
+.shadow-text {
+  text-shadow: 2px 2px 4px rgba(0,0,0,0.1);
+}
 /*
 
 @layer components {

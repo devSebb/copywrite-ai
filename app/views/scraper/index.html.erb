@@ -1,37 +1,39 @@
-<div class="container mx-auto px-4 py-8 max-w-2xl">
-  <h1 class="text-3xl font-bold text-center mb-8 text-indigo-600">Web Scraper</h1>
+<div class="min-h-screen  py-12">
+  <div class="container mx-auto px-4 max-w-3xl">
+    <h1 class="text-4xl font-extrabold text-center mb-12 text-indigo-700 shadow-text">Copywrite AI</h1>
 
-  <%= form_with url: scrape_path, method: :post, local: true, class: "mb-8" do %>
-    <div class="bg-white shadow-md rounded px-8 pt-6 pb-8 mb-4">
-      <div class="mb-4">
-        <%= label_tag :url, "Enter the URL to scrape:", class: "block text-gray-700 text-sm font-bold mb-2" %>
-        <%= text_field_tag :url, params[:url], size: 50, class: "shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline" %>
+    <%= form_with url: scrape_path, method: :post, local: true, class: "mb-10" do %>
+      <div class="bg-white shadow-lg rounded-lg px-8 pt-6 pb-8 mb-4 ">
+        <div class="mb-6">
+          <%= label_tag :url, "Enter the URL to scrape:", class: "block text-gray-700 text-sm font-bold mb-2" %>
+          <%= text_field_tag :url, params[:url], size: 50, class: "shadow appearance-none border rounded-lg w-full py-3 px-4 text-gray-700 leading-tight focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:border-transparent transition" %>
+        </div>
+        <div class="flex items-center justify-center">
+          <%= submit_tag "Scrape", class: "bg-indigo-600 hover:bg-indigo-700 text-white font-bold py-3 px-6 rounded-lg focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2 transition duration-300 transform hover:-translate-y-1" %>
+        </div>
       </div>
-      <div class="flex items-center justify-center">
-        <%= submit_tag "Scrape", class: "bg-indigo-500 hover:bg-indigo-700 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline transition duration-300" %>
-      </div>
-    </div>
-  <% end %>
+    <% end %>
 
-  <% if @scraped_text %>
-    <div class="bg-white shadow-md rounded px-8 pt-6 pb-8 mb-4">
-      <h2 class="text-2xl font-semibold mb-4 text-indigo-600">Scraped Text:</h2>
-      <div class="h-96 overflow-auto mb-4">
-        <pre class="bg-gray-100 p-4 rounded-lg whitespace-pre-wrap break-words text-sm"><%= @scraped_text %></pre>
+    <% if @scraped_text %>
+      <div class="bg-white shadow-lg rounded-lg px-8 pt-6 pb-8 mb-10 ">
+        <h2 class="text-2xl font-semibold mb-4 text-indigo-700">Scraped Text:</h2>
+        <div class="h-96 overflow-auto mb-6 bg-gray-50 rounded-lg p-4 border border-gray-200">
+          <pre class="whitespace-pre-wrap break-words text-sm text-gray-700"><%= @scraped_text %></pre>
+        </div>
+        <%= form_with url: improve_text_path, method: :post, local: true do %>
+          <%= hidden_field_tag :scraped_text, @scraped_text %>
+          <%= submit_tag "Improve my text", class: "w-full bg-green-500 hover:bg-green-600 text-white font-bold py-3 px-6 rounded-lg focus:outline-none focus:ring-2 focus:ring-green-500 focus:ring-offset-2 transition duration-300 transform hover:-translate-y-1" %>
+        <% end %>
       </div>
-      <%= form_with url: improve_text_path, method: :post, local: true do %>
-        <%= hidden_field_tag :scraped_text, @scraped_text %>
-        <%= submit_tag "Improve my text", class: "bg-green-500 hover:bg-green-700 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline transition duration-300" %>
-      <% end %>
-    </div>
-  <% end %>
+    <% end %>
 
-  <% if @improved_text %>
-    <div class="bg-white shadow-md rounded px-8 pt-6 pb-8">
-      <h2 class="text-2xl font-semibold mb-4 text-green-600">Improved Text:</h2>
-      <div class="h-96 overflow-auto">
-        <pre class="bg-gray-100 p-4 rounded-lg whitespace-pre-wrap break-words text-sm"><%= @improved_text %></pre>
+    <% if @improved_text %>
+      <div class="bg-white shadow-lg rounded-lg px-8 pt-6 pb-8 transform">
+        <h2 class="text-2xl font-semibold mb-4 text-green-700">Improved Text:</h2>
+        <div class="h-96 overflow-auto bg-gray-50 rounded-lg p-4 border border-gray-200">
+          <pre class="whitespace-pre-wrap break-words text-sm text-gray-700"><%= @improved_text %></pre>
+        </div>
       </div>
-    </div>
-  <% end %>
+    <% end %>
+  </div>
 </div>

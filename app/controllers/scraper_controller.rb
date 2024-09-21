@@ -4,26 +4,22 @@ class ScraperController < ApplicationController
 
   def scrape
     url = params[:url]
-
     if valid_url?(url)
       begin
-        response = HTTParty.get(url)
-        parsed_page = Nokogiri::HTML(response.body)
-        # Extract all text within the body tag
-        @scraped_text = parsed_page.xpath("//body//text()").map(&:text).join(" ").squeeze(" ").strip
+        scraper_service = WebScraperService.new(url)
+        @scraped_text = scraper_service.scrape
       rescue => e
         @error = "An error occurred while scraping: #{e.message}"
       end
     else
       @error = "Please enter a valid URL."
     end
-
     render :index
   end
 
   def improve_text
     scraped_text = params[:scraped_text]
-    copywrite_service = CopywriteService.new(scraped_text)
+    copywrite_service = CopywriteServices.new(scraped_text)
     @improved_text = copywrite_service.improve_text
     render :index
   end
