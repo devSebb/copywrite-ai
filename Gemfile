@@ -4,7 +4,7 @@ gem "devise"
 gem 'nokogiri', '~> 1.16', '>= 1.16.7'
 gem 'httparty'
 gem "ruby-openai"
-gem "tailwindcss-rails", "~> 2.7"
+gem "tailwindcss-rails", "~> 3.0"
 gem 'dotenv', groups: [:development, :test]
 
 # Bundle edge Rails instead: gem "rails", github: "rails/rails", branch: "main"
