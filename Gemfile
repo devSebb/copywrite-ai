@@ -1,7 +1,7 @@
 source "https://rubygems.org"
 ruby "3.1.2"
 gem "devise"
-gem 'nokogiri', '~> 1.16', '>= 1.16.7'
+gem 'nokogiri', '~> 1.17'
 gem 'httparty'
 gem "ruby-openai"
 gem "tailwindcss-rails", "~> 2.7"
